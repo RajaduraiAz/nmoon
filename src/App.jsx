@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
   const [saidYes, setSaidYes] = useState(false)
   const [noClickCount, setNoClickCount] = useState(0)
   const [dateAccepted, setDateAccepted] = useState(false)
@@ -79,7 +80,7 @@ function App() {
     setApiNotice('Sending happy news email...')
 
     try {
-      const response = await fetch('/api/send-yes-email', {
+      const response = await fetch(`${apiBaseUrl}/api/send-yes-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ function App() {
 
       setApiNotice('Email sent from backend successfully.')
     } catch {
-      setApiNotice('Yes received. Could not send email now. Please check backend config.')
+      setApiNotice('Yes received. Could not send email now. Check API URL/backend route.')
     } finally {
       setIsSending(false)
     }
