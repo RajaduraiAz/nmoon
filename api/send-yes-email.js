@@ -17,27 +17,47 @@ export default async function handler(req, res) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const {
+    eventType = 'girlfriend-yes',
     noClickCount = 0,
     acceptedAt,
     personName = 'Shruthi',
     nickName = 'Nila',
+    dateChoice,
   } = req.body || {}
 
   const acceptedTime = acceptedAt || new Date().toISOString()
+  const isDateEvent = eventType === 'first-date-yes'
+  const subject = isDateEvent
+    ? `First Date Confirmed - ${personName} (${nickName})`
+    : `She said YES - ${personName} (${nickName})`
 
-  try {
-    await resend.emails.send({
-      from: process.env.MAIL_FROM,
-      to: [process.env.MAIL_TO],
-      subject: `She said YES - ${personName} (${nickName})`,
-      text: [
+  const textLines = isDateEvent
+    ? [
+        'Great news. She confirmed the first date.',
+        '',
+        `Name: ${personName}`,
+        `Nickname: ${nickName}`,
+        `Chosen date: ${dateChoice?.date || 'Not selected'}`,
+        `Chosen time: ${dateChoice?.time || 'Not selected'}`,
+        `Chosen mood: ${dateChoice?.mood || 'Not selected'}`,
+        `Girlfriend No button clicks before Yes: ${noClickCount}`,
+        `Confirmed at: ${acceptedTime}`,
+      ]
+    : [
         'Great news. She clicked Yes.',
         '',
         `Name: ${personName}`,
         `Nickname: ${nickName}`,
         `No button clicks: ${noClickCount}`,
         `Accepted at: ${acceptedTime}`,
-      ].join('\n'),
+      ]
+
+  try {
+    await resend.emails.send({
+      from: process.env.MAIL_FROM,
+      to: [process.env.MAIL_TO],
+      subject,
+      text: textLines.join('\n'),
     })
 
     return res.status(200).json({ ok: true })

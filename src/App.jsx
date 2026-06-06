@@ -66,8 +66,49 @@ function App() {
     }
   }
 
-  const handleDateYes = () => {
+  const sendYesEmail = async (payload) => {
+    const response = await fetch(`${apiBaseUrl}/api/send-yes-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (!response.ok) {
+      throw new Error('Mail API request failed')
+    }
+  }
+
+  const handleDateYes = async () => {
+    if (isSending) {
+      return
+    }
+
     setDateAccepted(true)
+    setIsSending(true)
+    setApiNotice('Sending first-date confirmation email...')
+
+    try {
+      await sendYesEmail({
+        eventType: 'first-date-yes',
+        acceptedAt: new Date().toISOString(),
+        personName: 'Shruthi',
+        nickName: 'Nila',
+        noClickCount,
+        dateChoice: {
+          date: selectedDate || null,
+          time: selectedTime,
+          mood: selectedMood,
+        },
+      })
+
+      setApiNotice('First-date details sent by email successfully.')
+    } catch {
+      setApiNotice('Date yes saved, but email failed. Check API/backend configuration.')
+    } finally {
+      setIsSending(false)
+    }
   }
 
   const handleYes = async () => {
@@ -80,22 +121,13 @@ function App() {
     setApiNotice('Sending happy news email...')
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/send-yes-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          noClickCount,
-          acceptedAt: new Date().toISOString(),
-          personName: 'Shruthi',
-          nickName: 'Nila',
-        }),
+      await sendYesEmail({
+        eventType: 'girlfriend-yes',
+        noClickCount,
+        acceptedAt: new Date().toISOString(),
+        personName: 'Shruthi',
+        nickName: 'Nila',
       })
-
-      if (!response.ok) {
-        throw new Error('Mail API request failed')
-      }
 
       setApiNotice('Email sent from backend successfully.')
     } catch {
@@ -197,10 +229,10 @@ function App() {
           </div>
         ) : (
           <div className="actions">
-            <button type="button" className="yes" onClick={handleDateYes}>
+            <button type="button" className="yes" onClick={handleDateYes} disabled={isSending}>
               Yes, first date with you
             </button>
-            <button type="button" className="soft" onClick={handleDateNo}>
+            <button type="button" className="soft" onClick={handleDateNo} disabled={isSending}>
               No, wrong button again
             </button>
           </div>
