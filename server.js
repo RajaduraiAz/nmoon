@@ -1,10 +1,11 @@
 import 'dotenv/config'
 import cors from 'cors'
 import express from 'express'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 const app = express()
 const port = process.env.PORT || 8787
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 app.use(cors())
 app.use(express.json())
@@ -16,7 +17,7 @@ app.get('/api/health', (_req, res) => {
 app.post('/api/send-yes-email', async (req, res) => {
   const { noClickCount = 0, acceptedAt, personName = 'Shruthi', nickName = 'Nila' } = req.body || {}
 
-  const required = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS', 'MAIL_FROM', 'MAIL_TO']
+  const required = ['RESEND_API_KEY', 'MAIL_FROM', 'MAIL_TO']
   const missing = required.filter((key) => !process.env[key])
 
   if (missing.length > 0) {
@@ -27,21 +28,11 @@ app.post('/api/send-yes-email', async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: Number(process.env.SMTP_PORT) === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
-
     const acceptedTime = acceptedAt || new Date().toISOString()
 
-    await transporter.sendMail({
+    await resend.emails.send({
       from: process.env.MAIL_FROM,
-      to: process.env.MAIL_TO,
+      to: [process.env.MAIL_TO],
       subject: `She said YES - ${personName} (${nickName})`,
       text: [
         'Great news. She clicked Yes.',
