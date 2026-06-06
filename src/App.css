@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap');
+
+.page {
+  height: 100svh;
+  position: relative;
+  overflow: hidden;
+  padding: 0.9rem;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 177, 177, 0.35), transparent 42%),
+    radial-gradient(circle at 85% 12%, rgba(255, 232, 196, 0.45), transparent 46%),
+    linear-gradient(160deg, #fff8f3 0%, #fff 55%, #fff3f8 100%);
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(65px);
+  opacity: 0.6;
+  animation: drift 8s ease-in-out infinite alternate;
+}
+
+.glow-left {
+  width: 180px;
+  height: 180px;
+  background: rgba(255, 166, 176, 0.8);
+  top: -45px;
+  left: -40px;
+}
+
+.glow-right {
+  width: 220px;
+  height: 220px;
+  background: rgba(255, 211, 175, 0.75);
+  bottom: -70px;
+  right: -55px;
+  animation-delay: 1.8s;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 560px);
+  max-height: calc(100svh - 2rem);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(196, 125, 125, 0.22);
+  border-radius: 24px;
+  box-shadow: 0 24px 45px rgba(154, 79, 79, 0.14);
+  padding: 1rem;
+}
+
+.photo-wrap {
+  margin: 0 0 0.55rem;
+  display: grid;
+  place-items: center;
+}
+
+.photo {
+  width: min(100%, 165px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 14px 26px rgba(154, 79, 79, 0.2);
+}
+
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9d5f67;
+  font-size: 0.74rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+}
+
+h1 {
+  margin: 0.35rem 0 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.75rem, 7.5vw, 2.65rem);
+  line-height: 0.97;
+  color: #5f2430;
+}
+
+.lead {
+  margin: 0.55rem 0 0;
+  color: #6e4c55;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  font-family: 'Manrope', sans-serif;
+}
+
+blockquote {
+  margin: 0.58rem 0 0;
+  padding-left: 0.62rem;
+  border-left: 3px solid rgba(218, 122, 133, 0.5);
+  color: #7a4f59;
+  font-size: 0.86rem;
+  line-height: 1.28;
+  font-family: 'Manrope', sans-serif;
+}
+
+.invite {
+  margin-top: 0.65rem;
+  padding: 0.62rem;
+  border-radius: 16px;
+  background: rgba(255, 244, 242, 0.75);
+  border: 1px solid rgba(237, 162, 162, 0.32);
+}
+
+h2 {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  color: #6a2a38;
+}
+
+.invite p {
+  margin-top: 0.2rem;
+  font-family: 'Manrope', sans-serif;
+  color: #73515b;
+  font-size: 0.86rem;
+}
+
+.plan-grid {
+  margin-top: 0.35rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.16rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  color: #7f5b64;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid rgba(196, 125, 125, 0.35);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  padding: 0.35rem 0.45rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  color: #653b46;
+}
+
+.mood-title {
+  margin: 0.42rem 0 0;
+  font-size: 0.72rem;
+}
+
+.mood-options {
+  margin-top: 0.26rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.mood-chip {
+  border-radius: 999px;
+  border: 1px solid rgba(201, 106, 124, 0.35);
+  background: rgba(255, 255, 255, 0.8);
+  color: #7b4854;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.mood-chip.active {
+  background: rgba(201, 72, 93, 0.14);
+  border-color: rgba(201, 72, 93, 0.65);
+}
+
+.actions {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.status {
+  margin: 0.45rem 0 0;
+  min-height: 1.15rem;
+  text-align: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  color: #8a4d59;
+}
+
+.hint {
+  margin: 0.12rem 0 0;
+  text-align: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.69rem;
+  color: #aa7a83;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.63rem 0.76rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button:focus-visible {
+  outline: 2px solid #6a2a38;
+  outline-offset: 2px;
+}
+
+.yes {
+  background: linear-gradient(135deg, #c9485d, #db6578);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(201, 72, 93, 0.3);
+}
+
+.soft {
+  background: rgba(255, 236, 229, 0.88);
+  color: #7b4854;
+}
+
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.35rem;
+  z-index: 1;
+  margin: 0;
+  color: #9d6e78;
+  font-family: 'Manrope', sans-serif;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-12px) scale(1.05);
+  }
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding: 1.5rem;
+  }
+
+  .card {
+    padding: 1.4rem;
+  }
+
+  .actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-height: 760px) {
+  .photo {
+    width: min(100%, 140px);
+  }
+
+  h1 {
+    font-size: clamp(1.55rem, 7vw, 2.1rem);
+  }
+
+  .lead,
+  blockquote,
+  .invite p,
+  button,
+  .status {
+    font-size: 0.8rem;
+  }
+
+  .field {
+    font-size: 0.66rem;
+  }
+
+  .field input,
+  .field select,
+  .mood-chip {
+    font-size: 0.68rem;
+  }
+}
